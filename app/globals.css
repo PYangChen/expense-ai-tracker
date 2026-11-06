@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
+/* 日光白：只做亮色主題，不跟隨系統深色 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --bg: #f3f7ff; /* 天空淡藍 */
+  --card: #ffffff;
+  --ink: #0e1633;
+  --muted: #6a7491;
+  --line: #e6ebf7;
+  --accent: #2f4bff; /* 群青藍 */
+  --accent-soft: #e4eaff;
+  --accent-mid: #bcc8ff;
+  --sun: #ffd23f; /* 只用來標記「今天」 */
+  --danger: #d92d4a;
+  --danger-soft: #ffeef1;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-mid: var(--accent-mid);
+  --color-sun: var(--sun);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: var(--font-noto), system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-display: var(--font-display), var(--font-noto), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 白色面板：統計與明細共用 */
+.sheet {
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow:
+    0 1px 0 rgb(14 22 51 / 0.03),
+    0 20px 40px -26px rgb(47 75 255 / 0.4);
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 唯一的進場動態：每日脈動長條依序長出來 */
+@keyframes grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.grow {
+  transform-origin: bottom;
+  animation: grow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grow { animation: none; }
+  * { scroll-behavior: auto !important; }
 }
